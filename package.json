@@ -1,5 +1,6 @@
 {
     "name": "helloworld",
+    "publisher": "adiguno",
     "displayName": "HelloWorld",
     "description": "",
     "version": "0.0.1",
@@ -10,20 +11,20 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:helloworld.helloWorld",
-        "onCommand:helloworld.askQuestion"
+        "*"
     ],
     "main": "./dist/extension.js",
     "contributes": {
         "commands": [
             {
-                "command": "helloworld.helloWorld",
-                "title": "Hello World"
+                "command": "helloworld.startTimer",
+                "category": "helloworld",
+                "title": "start the timer"
             },
             {
-                "command": "helloworld.askQuestion",
+                "command": "helloworld.stopTimer",
                 "category": "helloworld",
-                "title": "Ask a question"
+                "title": "stop the timer"
             }
         ]
     },
