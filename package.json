@@ -17,16 +17,23 @@
     "contributes": {
         "commands": [
             {
-                "command": "helloworld.startTimer",
-                "category": "helloworld",
-                "title": "start the timer"
-            },
-            {
-                "command": "helloworld.stopTimer",
-                "category": "helloworld",
-                "title": "stop the timer"
+                "command": "helloworld.resetTimer",
+                "title": "reset timer"
             }
         ]
+    },
+    "configuration": {
+        "title": "helloworld config",
+        "properties": {
+            "helloworld.statusBarClick": {
+                "type": "string",
+                "enum": [
+                    "startTimer",
+                    "stopTimer"
+                ],
+                "description": "asdf"
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run package",

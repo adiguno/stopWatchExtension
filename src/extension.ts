@@ -1,123 +1,68 @@
 import * as vscode from 'vscode';
 
-let myStatusBarItem: vscode.StatusBarItem;
+let timerStatusBarItem: vscode.StatusBarItem;
+let resetStatusBarItem: vscode.StatusBarItem;
 
 export function activate(context: vscode.ExtensionContext) {
-    // console.log('Congratulations, your extension "helloworld" is now active!');
-
-    let timer = 0;
+    let time = 0;
     let isTimerRunning = false;
+    let timer: NodeJS.Timeout;
 
-    myStatusBarItem = vscode.window.createStatusBarItem(
+    timerStatusBarItem = vscode.window.createStatusBarItem(
         vscode.StatusBarAlignment.Left,
         100
     );
-    myStatusBarItem.text = 'some timer text';
-    myStatusBarItem.show();
-    // myStatusBarItem.
-    context.subscriptions.push(myStatusBarItem);
+    timerStatusBarItem.text = 'Begin Timer';
+    timerStatusBarItem.show();
+    timerStatusBarItem.command = 'helloworld.statusBarClick';
+    context.subscriptions.push(timerStatusBarItem);
+
+    resetStatusBarItem = vscode.window.createStatusBarItem(
+        vscode.StatusBarAlignment.Left,
+        100
+    );
+    resetStatusBarItem.text = `$(stop-circle)`;
+    resetStatusBarItem.show();
+    resetStatusBarItem.command = 'helloworld.resetTimer';
+    context.subscriptions.push(resetStatusBarItem);
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('helloworld.startTimer', async () => {
-            isTimerRunning = true;
-
+        vscode.commands.registerCommand('helloworld.statusBarClick', () => {
             if (isTimerRunning) {
-                var asdf = setInterval(function () {
-                    timer += 1;
-                    myStatusBarItem.text = `timer: ${timer}`;
+                isTimerRunning = false;
+                clearInterval(timer);
+            } else {
+                isTimerRunning = true;
+
+                timer = setInterval(function () {
+                    time += 1;
+                    timerStatusBarItem.text = formatTimer(time);
                 }, 1000);
             }
         })
     );
+
     context.subscriptions.push(
-        vscode.commands.registerCommand('helloworld.stopTimer', async () => {
-            clearInterval(asdf);
+        vscode.commands.registerCommand('helloworld.resetTimer', async () => {
+            isTimerRunning = false;
+            clearInterval(timer);
+
+            time = 0;
+            timerStatusBarItem.text = 'Begin Timer';
         })
     );
-    context.subscriptions.push(
-        vscode.commands.registerCommand('helloworld.resetTimer', async () => {})
-    );
-
-    // let disposable = vscode.commands.registerCommand(
-    //     'helloworld.helloWorld',
-    //     () => {
-    //         vscode.window.showInformationMessage('Hello chat from HelloWorld!');
-    //     }
-    // );
-
-    // context.subscriptions.push(disposable); // gets return value from dispo
-
-    // context.subscriptions.push(
-    //     vscode.commands.registerCommand('helloworld.askQuestion', async () => {
-    //         const answer = await vscode.window.showInformationMessage(
-    //             'How was your day?',
-    //             'good',
-    //             'bad'
-    //         );
-
-    //         if (answer === 'bad') {
-    //             vscode.window.showInformationMessage('sorry to hear that');
-    //         } else {
-    //             console.log(answer);
-    //         }
-    //     })
-    // );
-
-    // register a command that is invoked when the status bar
-    // item is selected
-    // const myCommandId = 'helloworld.showSelectionCount';
-    // context.subscriptions.push(
-    //     vscode.commands.registerCommand(myCommandId, () => {
-    //         const n = getNumberOfSelectedLines(vscode.window.activeTextEditor);
-    //         vscode.window.showInformationMessage(
-    //             `Yeah, ${n} line(s) selected... Keep going!`
-    //         );
-    //     })
-    // );
-
-    // // create a new status bar item that we can now manage
-    // myStatusBarItem = vscode.window.createStatusBarItem(
-    //     vscode.StatusBarAlignment.Right,
-    //     100
-    // );
-    // myStatusBarItem.command = myCommandId;
-    // context.subscriptions.push(myStatusBarItem);
-
-    // // register some listener that make sure the status bar
-    // // item always up-to-date
-    // context.subscriptions.push(
-    //     vscode.window.onDidChangeActiveTextEditor(updateStatusBarItem)
-    // );
-    // context.subscriptions.push(
-    //     vscode.window.onDidChangeTextEditorSelection(updateStatusBarItem)
-    // );
-
-    // // update status bar item once at start
-    // updateStatusBarItem();
 }
 
 // todo keep track of timer var here
 export function deactivate() {}
 
-// function updateStatusBarItem(): void {
-//     const n = getNumberOfSelectedLines(vscode.window.activeTextEditor);
-//     if (n > 0) {
-//         myStatusBarItem.text = `asdfasdfasdfas ${n} line(s) selected`;
-//         myStatusBarItem.show();
-//     } else {
-//         myStatusBarItem.hide();
-//     }
-// }
+function formatTimer(time: number): string {
+    let hour = Math.floor(time / 3600);
+    let minute = Math.floor((time % 3600) / 60);
+    let second = Math.floor(time % 60);
 
-// function getNumberOfSelectedLines(
-//     editor: vscode.TextEditor | undefined
-// ): number {
-//     let lines = 0;
-//     if (editor) {
-//         lines = editor.selections.reduce(
-//             (prev, curr) => prev + (curr.end.line - curr.start.line),
-//             0
-//         );
-//     }
-//     return lines;
-// }
+    const hh = hour.toString().padStart(2, '0');
+    const mm = minute.toString().padStart(2, '0');
+    const ss = second.toString().padStart(2, '0');
+    return `${hh}:${mm}:${ss}`;
+}
