@@ -1,7 +1,7 @@
 {
-    "name": "helloworld",
+    "name": "stopwatch",
     "publisher": "adiguno",
-    "displayName": "HelloWorld",
+    "displayName": "Stop Watch",
     "description": "",
     "version": "0.0.1",
     "engines": {
@@ -17,15 +17,15 @@
     "contributes": {
         "commands": [
             {
-                "command": "helloworld.resetTimer",
+                "command": "stopwatch.resetTimer",
                 "title": "reset timer"
             }
         ]
     },
     "configuration": {
-        "title": "helloworld config",
+        "title": "stopwatch config",
         "properties": {
-            "helloworld.statusBarClick": {
+            "stopwatch.statusBarClick": {
                 "type": "string",
                 "enum": [
                     "startTimer",
@@ -34,6 +34,10 @@
                 "description": "asdf"
             }
         }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/adiguno/stopWatchExtension"
     },
     "scripts": {
         "vscode:prepublish": "npm run package",

@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
     timerStatusBarItem.text = 'Begin Timer';
     timerStatusBarItem.show();
-    timerStatusBarItem.command = 'helloworld.statusBarClick';
+    timerStatusBarItem.command = 'stopwatch.statusBarClick';
     context.subscriptions.push(timerStatusBarItem);
 
     resetStatusBarItem = vscode.window.createStatusBarItem(
@@ -23,11 +23,11 @@ export function activate(context: vscode.ExtensionContext) {
     );
     resetStatusBarItem.text = `$(stop-circle)`;
     resetStatusBarItem.show();
-    resetStatusBarItem.command = 'helloworld.resetTimer';
+    resetStatusBarItem.command = 'stopwatch.resetTimer';
     context.subscriptions.push(resetStatusBarItem);
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('helloworld.statusBarClick', () => {
+        vscode.commands.registerCommand('stopwatch.statusBarClick', () => {
             if (isTimerRunning) {
                 isTimerRunning = false;
                 clearInterval(timer);
@@ -43,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('helloworld.resetTimer', async () => {
+        vscode.commands.registerCommand('stopwatch.resetTimer', async () => {
             isTimerRunning = false;
             clearInterval(timer);
 
