@@ -1,4 +1,5 @@
 {
+    "icon": "app_logo.png",
     "name": "stopwatch",
     "publisher": "adiguno",
     "displayName": "Stop Watch",
