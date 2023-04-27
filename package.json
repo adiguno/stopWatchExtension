@@ -20,6 +20,10 @@
             {
                 "command": "stopwatch.resetTimer",
                 "title": "Stopwatch: reset timer"
+            },
+            {
+                "command": "stopwatch.statusBarClick",
+                "title": "Stopwatch: toggle timer"
             }
         ]
     },
